@@ -1,5 +1,4 @@
 package com.example.toDoList.controllers;
-
 import com.example.toDoList.models.Note;
 import com.example.toDoList.services.NotesService;
 import com.example.toDoList.util.NoteErrorResponse;
@@ -17,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/notes")
+@CrossOrigin(origins = "http://localhost:3000")
 public class NotesController {
 
     private final NotesService notesService;
@@ -37,7 +37,7 @@ public class NotesController {
     }
 
     @PostMapping
-    public ResponseEntity<HttpStatus> create(@RequestBody @Valid Note note,
+    public ResponseEntity<String> create(@RequestBody @Valid Note note,
                                              BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
@@ -52,8 +52,31 @@ public class NotesController {
             throw new NoteNotCreatedException(errorMSG.toString());
         }
 
-        notesService.save(note);
-        return ResponseEntity.ok(HttpStatus.OK);
+        String savedNoteId = notesService.save(note).toString();
+        return new ResponseEntity<String>(savedNoteId, HttpStatus.CREATED);
+//        return ResponseEntity.ok(HttpStatus.OK);
+    }
+    
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<String> deleteNote(@PathVariable("id") int id) {
+//    	
+//    	if(notesService.deleteNote(id)) {
+//    		return ResponseEntity.status(HttpStatus.OK).body("The note has been deleted");
+//    	} else {
+//    		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The note has not been found");
+//    	}
+//    
+//    }
+    
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> deleteNote(@PathVariable("id") int id) {
+    	
+    	if(notesService.deleteNote(id)) {
+    		return ResponseEntity.ok(HttpStatus.OK);
+    	} else {
+    		throw new NoteNotFoundException();
+    	}
+    
     }
 
     //---------------------------Handlers-----------------------------------

@@ -1,6 +1,5 @@
 package com.example.toDoList.services;
 
-
 import com.example.toDoList.models.Note;
 import com.example.toDoList.repositories.NotesRepository;
 import com.example.toDoList.util.NoteNotFoundException;
@@ -28,11 +27,28 @@ public class NotesService {
 
     public Note findOne(int id) {
         Optional<Note> foundNote = notesRepository.findById(id);
-        return foundNote.orElseThrow(NoteNotFoundException::new);
+        return foundNote.orElseThrow(() -> new NoteNotFoundException());
     }
 
     @Transactional
-    public void save(Note note) {
-        notesRepository.save(note);
+    public Integer save(Note note) {
+        return notesRepository.save(note).getId();
+    }
+    
+    @Transactional
+    public boolean deleteNote(int id) {
+    	
+    	if (isExist(id)) {
+    		notesRepository.deleteById(id);
+    		return true;
+    	} else {
+    		return false;
+    	}
+    	
+ 
+    }
+    
+    private boolean isExist(int id) {
+    	return notesRepository.existsById(id);
     }
 }
