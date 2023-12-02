@@ -45,6 +45,15 @@ public class NotesService {
     		return false;
     	}
     	
+    }
+    
+    @Transactional
+    public void makeNoteDone (int id) {
+    	
+    	Note note = findOne(id);
+    	note.setStatus(true);
+    	
+    	save(note);
  
     }
     

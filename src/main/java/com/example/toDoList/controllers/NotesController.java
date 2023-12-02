@@ -57,6 +57,14 @@ public class NotesController {
 //        return ResponseEntity.ok(HttpStatus.OK);
     }
     
+    @PatchMapping("/{id}/done")
+    public ResponseEntity<HttpStatus> makeNoteDone(@PathVariable("id") int id) {
+    	
+    	notesService.makeNoteDone(id);
+    	return ResponseEntity.ok(HttpStatus.OK);
+    	
+    }
+    
 //    @DeleteMapping("/{id}")
 //    public ResponseEntity<String> deleteNote(@PathVariable("id") int id) {
 //    	
@@ -78,6 +86,8 @@ public class NotesController {
     	}
     
     }
+    
+    
 
     //---------------------------Handlers-----------------------------------
 
