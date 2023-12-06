@@ -13,6 +13,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/notes")
@@ -33,11 +34,39 @@ public class NotesController {
 
     @GetMapping("/{id}")
     public Note getSimpleNote(@PathVariable("id") int id) {
-        return notesService.findOne(id);
+       Note note = notesService.findOne(id);
+       
+       System.out.println(note.getId());
+       System.out.println(note.getExpirationDate());
+       
+       return note;
+       
+       
     }
 
+//    @PostMapping
+//    public ResponseEntity<String> create(@RequestBody @Valid Note note,
+//                                             BindingResult bindingResult) {
+//
+//        if (bindingResult.hasErrors()) {
+//            StringBuilder errorMSG = new StringBuilder();
+//
+//            List<FieldError> errors = bindingResult.getFieldErrors();
+//
+//            for (FieldError error: errors) {
+//                errorMSG.append(error.getField()).append(" - ").append(error.getDefaultMessage()).append(";/n");
+//            }
+//
+//            throw new NoteNotCreatedException(errorMSG.toString());
+//        }
+//
+//        String savedNote = notesService.save(note).toString();
+//        return new ResponseEntity<String>(savedNote, HttpStatus.CREATED);
+////        return ResponseEntity.ok(HttpStatus.OK);
+//    }
+    
     @PostMapping
-    public ResponseEntity<String> create(@RequestBody @Valid Note note,
+    public Optional<Note> create(@RequestBody @Valid Note note,
                                              BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
@@ -51,10 +80,8 @@ public class NotesController {
 
             throw new NoteNotCreatedException(errorMSG.toString());
         }
-
-        String savedNoteId = notesService.save(note).toString();
-        return new ResponseEntity<String>(savedNoteId, HttpStatus.CREATED);
-//        return ResponseEntity.ok(HttpStatus.OK);
+        
+        return Optional.of(notesService.save(note));
     }
     
     @PatchMapping("/{id}/done")

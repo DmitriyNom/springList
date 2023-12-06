@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,8 +32,9 @@ public class NotesService {
     }
 
     @Transactional
-    public Integer save(Note note) {
-        return notesRepository.save(note).getId();
+    public Note save(Note note) {
+    	note.setCreatedAt(new Date());
+        return notesRepository.save(note);
     }
     
     @Transactional
