@@ -36,9 +36,6 @@ public class NotesController {
     public Note getSimpleNote(@PathVariable("id") int id) {
        Note note = notesService.findOne(id);
        
-       System.out.println(note.getId());
-       System.out.println(note.getExpirationDate());
-       
        return note;
        
        
@@ -88,6 +85,14 @@ public class NotesController {
     public ResponseEntity<HttpStatus> makeNoteDone(@PathVariable("id") int id) {
     	
     	notesService.makeNoteDone(id);
+    	return ResponseEntity.ok(HttpStatus.OK);
+    	
+    }
+    
+    @PatchMapping("/{id}/undone")
+    public ResponseEntity<HttpStatus> makeNoteUndone(@PathVariable("id") int id) {
+    	
+    	notesService.makeNoteUndone(id);
     	return ResponseEntity.ok(HttpStatus.OK);
     	
     }

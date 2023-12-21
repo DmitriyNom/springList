@@ -59,6 +59,16 @@ public class NotesService {
  
     }
     
+    @Transactional
+    public void makeNoteUndone (int id) {
+    	
+    	Note note = findOne(id);
+    	note.setStatus(false);
+    	
+    	save(note);
+ 
+    }
+    
     private boolean isExist(int id) {
     	return notesRepository.existsById(id);
     }
