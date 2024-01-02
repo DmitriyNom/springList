@@ -34,6 +34,7 @@ public class NotesService {
     @Transactional
     public Note save(Note note) {
     	note.setCreatedAt(new Date());
+    	
         return notesRepository.save(note);
     }
     

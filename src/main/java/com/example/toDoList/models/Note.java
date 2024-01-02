@@ -5,6 +5,8 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -35,10 +37,20 @@ public class Note {
     @Column(name="created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
+    
+    @Column(name="description")
+    @Size(min = 2, max = 500, message = "Name should be between 2 and 500 characters")
+    private String description;
+    
+    @Column(name = "priority")
+    @Min(value = 1, message = "priority should be greater than 1")    
+    @Max(value = 10, message = "priority should be lower than 10")
+    private int priority;
 
-    public Note(String name, boolean status) {
+    public Note(String name, boolean status, int priority) {
         this.name = name;
         this.status = status;
+        this.priority = priority;
     }
 
     public Note() {
@@ -83,6 +95,22 @@ public class Note {
     
     public Date getCreatedAt() {
     	return createdAt;
+    }
+    
+    public void setDescription(String description) {
+    	this.description = description;
+    }
+    
+    public String getDescription() {
+    	return this.description;
+    }
+    
+    public void setPriority(int priority) {
+    	this.priority = priority;
+    }
+    
+    public int getPriority() {
+    	return this.priority;
     }
  
 }
