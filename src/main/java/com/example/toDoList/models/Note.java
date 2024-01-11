@@ -39,7 +39,7 @@ public class Note {
     private Date createdAt;
     
     @Column(name="description")
-    @Size(min = 2, max = 500, message = "Name should be between 2 and 500 characters")
+    @Size(max = 500, message = "Maximum length of the description is 500 characters")
     private String description;
     
     @Column(name = "priority")

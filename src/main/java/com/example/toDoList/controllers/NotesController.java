@@ -81,6 +81,12 @@ public class NotesController {
         return Optional.of(notesService.save(note));
     }
     
+    @PatchMapping("/{id}")
+    	public Optional<Note>  updateNote(@RequestBody Note note) {
+  	
+    	return Optional.of(notesService.save(note));
+    }
+    
     @PatchMapping("/{id}/done")
     public ResponseEntity<HttpStatus> makeNoteDone(@PathVariable("id") int id) {
     	
