@@ -14,6 +14,8 @@ import jakarta.validation.constraints.Size;
 @Entity
 @Table(name="note_list")
 public class Note {
+	
+	//Fields-----------------------------------------------------------------------------
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,16 +48,21 @@ public class Note {
     @Min(value = 1, message = "priority should be greater than 1")    
     @Max(value = 10, message = "priority should be lower than 10")
     private int priority;
+    
+    
+    //Constructors-----------------------------------------------------------------------
 
+    public Note() {
+
+    }
+    
     public Note(String name, boolean status, int priority) {
         this.name = name;
         this.status = status;
         this.priority = priority;
     }
-
-    public Note() {
-
-    }
+    
+    //Accessors--------------------------------------------------------------------------
 
     public int getId() {
         return id;
